@@ -34,7 +34,7 @@ export function CarComparisonModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="w-[calc(100vw-2rem)] sm:max-w-[850px] p-4 sm:p-6 max-h-[90vh] overflow-y-auto overflow-x-hidden min-w-0">
+      <DialogContent className="w-[calc(100vw-2rem)] sm:max-w-[850px] p-4 sm:p-6 max-h-[90vh] overflow-y-auto overflow-x-hidden min-w-0 grid-cols-1">
         <DialogHeader className="space-y-1.5">
           <div className="flex items-center gap-2">
             <Badge variant="outline" className="border-accent text-accent font-semibold text-xs">

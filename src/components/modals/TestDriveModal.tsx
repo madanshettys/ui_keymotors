@@ -68,7 +68,7 @@ export function TestDriveModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="w-[calc(100vw-2rem)] sm:max-w-[550px] p-4 sm:p-6 overflow-x-hidden min-w-0">
+      <DialogContent className="w-[calc(100vw-2rem)] sm:max-w-[550px] p-4 sm:p-6 overflow-x-hidden min-w-0 grid-cols-1">
         {submitted ? (
           <div className="py-8 text-center space-y-4">
             <div className="w-16 h-16 rounded-full bg-ev/10 text-ev mx-auto flex items-center justify-center">

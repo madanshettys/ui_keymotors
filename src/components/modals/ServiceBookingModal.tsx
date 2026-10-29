@@ -55,7 +55,7 @@ export function ServiceBookingModal({ isOpen, onClose }: ServiceBookingModalProp
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="w-[calc(100vw-2rem)] sm:max-w-[550px] p-4 sm:p-6 overflow-x-hidden min-w-0">
+      <DialogContent className="w-[calc(100vw-2rem)] sm:max-w-[550px] p-4 sm:p-6 overflow-x-hidden min-w-0 grid-cols-1">
         {submitted ? (
           <div className="py-8 text-center space-y-4">
             <div className="w-16 h-16 rounded-full bg-ev/10 text-ev mx-auto flex items-center justify-center">
@@ -95,12 +95,12 @@ export function ServiceBookingModal({ isOpen, onClose }: ServiceBookingModalProp
               </DialogDescription>
             </DialogHeader>
 
-            <form onSubmit={handleSubmit} className="space-y-4 pt-2">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
+            <form onSubmit={handleSubmit} className="space-y-4 pt-2 min-w-0 w-full overflow-hidden">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 min-w-0 w-full">
+                <div className="space-y-1.5 min-w-0 w-full">
                   <Label>Service Type</Label>
                   <Select value={serviceType} onValueChange={setServiceType}>
-                    <SelectTrigger>
+                    <SelectTrigger className="w-full min-w-0">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -113,10 +113,10 @@ export function ServiceBookingModal({ isOpen, onClose }: ServiceBookingModalProp
                   </Select>
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="space-y-1.5 min-w-0 w-full">
                   <Label>Preferred Workshop</Label>
                   <Select value={outlet} onValueChange={setOutlet}>
-                    <SelectTrigger>
+                    <SelectTrigger className="w-full min-w-0">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -130,39 +130,42 @@ export function ServiceBookingModal({ isOpen, onClose }: ServiceBookingModalProp
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 min-w-0 w-full">
+                <div className="space-y-1.5 min-w-0 w-full">
                   <Label>Car Model / Variant</Label>
                   <Input
                     required
                     placeholder="e.g. Nexon EV, Harrier, Punch"
                     value={carModel}
                     onChange={(e) => setCarModel(e.target.value)}
+                    className="w-full min-w-0"
                   />
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="space-y-1.5 min-w-0 w-full">
                   <Label>Vehicle Registration Number</Label>
                   <Input
                     placeholder="KA-05-XX-XXXX"
                     value={regNumber}
                     onChange={(e) => setRegNumber(e.target.value)}
+                    className="w-full min-w-0"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 min-w-0 w-full">
+                <div className="space-y-1.5 min-w-0 w-full">
                   <Label>Your Name</Label>
                   <Input
                     required
                     placeholder="Enter your name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    className="w-full min-w-0"
                   />
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="space-y-1.5 min-w-0 w-full">
                   <Label>Contact Phone Number</Label>
                   <Input
                     required
@@ -170,32 +173,34 @@ export function ServiceBookingModal({ isOpen, onClose }: ServiceBookingModalProp
                     placeholder="10-digit mobile number"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
+                    className="w-full min-w-0"
                   />
                 </div>
               </div>
 
-              <div className="space-y-1.5">
+              <div className="space-y-1.5 min-w-0 w-full">
                 <Label>Preferred Service Date</Label>
                 <Input
                   type="date"
                   value={serviceDate}
                   onChange={(e) => setServiceDate(e.target.value)}
+                  className="w-full min-w-0"
                 />
               </div>
 
               {/* Doorstep Valet Pickup Toggle Card */}
-              <div className="space-y-1.5">
+              <div className="space-y-1.5 min-w-0 w-full">
                 <Label>Valet Vehicle Pick-up & Drop</Label>
                 <button
                   type="button"
                   onClick={() => setPickupDrop(!pickupDrop)}
-                  className={`w-full flex items-center justify-between p-2.5 sm:p-3 rounded-xl border transition-all text-left ${
+                  className={`w-full flex items-center justify-between p-2.5 sm:p-3 rounded-xl border transition-all text-left min-w-0 overflow-hidden ${
                     pickupDrop
                       ? 'border-accent bg-accent/10 text-foreground'
                       : 'border-border bg-card text-muted-foreground hover:border-accent/40'
                   }`}
                 >
-                  <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                  <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
                     <div
                       className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
                         pickupDrop ? 'bg-accent text-accent-foreground' : 'bg-muted text-muted-foreground'
@@ -203,7 +208,7 @@ export function ServiceBookingModal({ isOpen, onClose }: ServiceBookingModalProp
                     >
                       <Truck className="w-4 h-4" />
                     </div>
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <div className="text-xs font-bold text-foreground truncate">
                         {pickupDrop ? '✓ Free Doorstep Pick-up & Drop' : 'Self Drop at Workshop'}
                       </div>
@@ -224,11 +229,11 @@ export function ServiceBookingModal({ isOpen, onClose }: ServiceBookingModalProp
                 </button>
               </div>
 
-              <Button type="submit" size="lg" className="w-full mt-2 font-bold shadow-md h-auto py-3 px-4 text-xs sm:text-sm whitespace-normal leading-snug">
+              <Button type="submit" size="lg" className="w-full mt-2 font-bold shadow-md h-auto py-3 px-4 text-xs sm:text-sm whitespace-normal leading-snug min-w-0">
                 Confirm Service Appointment
               </Button>
 
-              <p className="text-[11px] text-center text-muted-foreground">
+              <p className="text-[11px] text-center text-muted-foreground break-words">
                 Genuine Tata Motors parts • Transparent computerized estimates • Cashless insurance
               </p>
             </form>
