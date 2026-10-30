@@ -55,7 +55,7 @@ export function ServiceBookingModal({ isOpen, onClose }: ServiceBookingModalProp
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="w-[calc(100vw-2rem)] sm:max-w-[550px] p-4 sm:p-6 overflow-x-hidden min-w-0 grid-cols-1">
+      <DialogContent className="w-[calc(100vw-2rem)] sm:w-full sm:max-w-[540px] max-h-[90vh] flex flex-col p-4 sm:p-6">
         {submitted ? (
           <div className="py-8 text-center space-y-4">
             <div className="w-16 h-16 rounded-full bg-ev/10 text-ev mx-auto flex items-center justify-center">
@@ -78,7 +78,7 @@ export function ServiceBookingModal({ isOpen, onClose }: ServiceBookingModalProp
           </div>
         ) : (
           <>
-            <DialogHeader className="space-y-1.5">
+            <DialogHeader className="space-y-1.5 shrink-0 pr-6 text-left">
               <div className="flex flex-wrap items-center gap-2">
                 <Badge variant="outline" className="border-accent text-accent font-semibold text-xs">
                   Authorized Tata Workshop
@@ -95,148 +95,150 @@ export function ServiceBookingModal({ isOpen, onClose }: ServiceBookingModalProp
               </DialogDescription>
             </DialogHeader>
 
-            <form onSubmit={handleSubmit} className="space-y-4 pt-2 min-w-0 w-full overflow-hidden">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 min-w-0 w-full">
-                <div className="space-y-1.5 min-w-0 w-full">
-                  <Label>Service Type</Label>
-                  <Select value={serviceType} onValueChange={setServiceType}>
-                    <SelectTrigger className="w-full min-w-0">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {SERVICE_TYPES.map((st) => (
-                        <SelectItem key={st.id} value={st.id}>
-                          {st.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-1.5 min-w-0 w-full">
-                  <Label>Preferred Workshop</Label>
-                  <Select value={outlet} onValueChange={setOutlet}>
-                    <SelectTrigger className="w-full min-w-0">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {serviceCenters.map((sc) => (
-                        <SelectItem key={sc.id} value={sc.id}>
-                          {sc.name.replace('Key Motors - ', '')}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 min-w-0 w-full">
-                <div className="space-y-1.5 min-w-0 w-full">
-                  <Label>Car Model / Variant</Label>
-                  <Input
-                    required
-                    placeholder="e.g. Nexon EV, Harrier, Punch"
-                    value={carModel}
-                    onChange={(e) => setCarModel(e.target.value)}
-                    className="w-full min-w-0"
-                  />
-                </div>
-
-                <div className="space-y-1.5 min-w-0 w-full">
-                  <Label>Vehicle Registration Number</Label>
-                  <Input
-                    placeholder="KA-05-XX-XXXX"
-                    value={regNumber}
-                    onChange={(e) => setRegNumber(e.target.value)}
-                    className="w-full min-w-0"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 min-w-0 w-full">
-                <div className="space-y-1.5 min-w-0 w-full">
-                  <Label>Your Name</Label>
-                  <Input
-                    required
-                    placeholder="Enter your name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full min-w-0"
-                  />
-                </div>
-
-                <div className="space-y-1.5 min-w-0 w-full">
-                  <Label>Contact Phone Number</Label>
-                  <Input
-                    required
-                    type="tel"
-                    placeholder="10-digit mobile number"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="w-full min-w-0"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-1.5 min-w-0 w-full">
-                <Label>Preferred Service Date</Label>
-                <Input
-                  type="date"
-                  value={serviceDate}
-                  onChange={(e) => setServiceDate(e.target.value)}
-                  className="w-full min-w-0"
-                />
-              </div>
-
-              {/* Doorstep Valet Pickup Toggle Card */}
-              <div className="space-y-1.5 min-w-0 w-full">
-                <Label>Valet Vehicle Pick-up & Drop</Label>
-                <button
-                  type="button"
-                  onClick={() => setPickupDrop(!pickupDrop)}
-                  className={`w-full flex items-center justify-between p-2.5 sm:p-3 rounded-xl border transition-all text-left min-w-0 overflow-hidden ${
-                    pickupDrop
-                      ? 'border-accent bg-accent/10 text-foreground'
-                      : 'border-border bg-card text-muted-foreground hover:border-accent/40'
-                  }`}
-                >
-                  <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
-                    <div
-                      className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                        pickupDrop ? 'bg-accent text-accent-foreground' : 'bg-muted text-muted-foreground'
-                      }`}
-                    >
-                      <Truck className="w-4 h-4" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="text-xs font-bold text-foreground truncate">
-                        {pickupDrop ? '✓ Free Doorstep Pick-up & Drop' : 'Self Drop at Workshop'}
-                      </div>
-                      <div className="text-[10px] sm:text-[11px] text-muted-foreground truncate">
-                        {pickupDrop
-                          ? 'Complimentary valet driver pickup across Bengaluru'
-                          : 'Click to add free doorstep pick-up & drop'}
-                      </div>
-                    </div>
+            <div className="overflow-y-auto -mr-2 pr-2 min-w-0 flex-1">
+              <form onSubmit={handleSubmit} className="space-y-4 pt-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 min-w-0">
+                  <div className="space-y-1.5 min-w-0">
+                    <Label>Service Type</Label>
+                    <Select value={serviceType} onValueChange={setServiceType}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {SERVICE_TYPES.map((st) => (
+                          <SelectItem key={st.id} value={st.id}>
+                            {st.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
-                  <div
-                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ml-2 ${
-                      pickupDrop ? 'border-accent bg-accent text-white' : 'border-border'
+
+                  <div className="space-y-1.5 min-w-0">
+                    <Label>Preferred Workshop</Label>
+                    <Select value={outlet} onValueChange={setOutlet}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {serviceCenters.map((sc) => (
+                          <SelectItem key={sc.id} value={sc.id}>
+                            {sc.name.replace('Key Motors - ', '')}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 min-w-0">
+                  <div className="space-y-1.5 min-w-0">
+                    <Label>Car Model / Variant</Label>
+                    <Input
+                      required
+                      placeholder="e.g. Nexon EV, Harrier, Punch"
+                      value={carModel}
+                      onChange={(e) => setCarModel(e.target.value)}
+                      className="w-full"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5 min-w-0">
+                    <Label>Vehicle Registration Number</Label>
+                    <Input
+                      placeholder="KA-05-XX-XXXX"
+                      value={regNumber}
+                      onChange={(e) => setRegNumber(e.target.value)}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 min-w-0">
+                  <div className="space-y-1.5 min-w-0">
+                    <Label>Your Name</Label>
+                    <Input
+                      required
+                      placeholder="Enter your name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="w-full"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5 min-w-0">
+                    <Label>Contact Phone Number</Label>
+                    <Input
+                      required
+                      type="tel"
+                      placeholder="10-digit mobile number"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1.5 min-w-0">
+                  <Label>Preferred Service Date</Label>
+                  <Input
+                    type="date"
+                    value={serviceDate}
+                    onChange={(e) => setServiceDate(e.target.value)}
+                    className="w-full"
+                  />
+                </div>
+
+                {/* Doorstep Valet Pickup Toggle Card */}
+                <div className="space-y-1.5 min-w-0">
+                  <Label>Valet Vehicle Pick-up & Drop</Label>
+                  <button
+                    type="button"
+                    onClick={() => setPickupDrop(!pickupDrop)}
+                    className={`w-full flex items-center justify-between p-2.5 sm:p-3 rounded-xl border transition-all text-left min-w-0 ${
+                      pickupDrop
+                        ? 'border-accent bg-accent/10 text-foreground'
+                        : 'border-border bg-card text-muted-foreground hover:border-accent/40'
                     }`}
                   >
-                    {pickupDrop && <CheckCircle2 className="w-3.5 h-3.5 fill-current" />}
-                  </div>
-                </button>
-              </div>
+                    <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
+                      <div
+                        className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                          pickupDrop ? 'bg-accent text-accent-foreground' : 'bg-muted text-muted-foreground'
+                        }`}
+                      >
+                        <Truck className="w-4 h-4" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="text-xs font-bold text-foreground truncate">
+                          {pickupDrop ? '✓ Free Doorstep Pick-up & Drop' : 'Self Drop at Workshop'}
+                        </div>
+                        <div className="text-[10px] sm:text-[11px] text-muted-foreground truncate">
+                          {pickupDrop
+                            ? 'Complimentary valet driver pickup across Bengaluru'
+                            : 'Click to add free doorstep pick-up & drop'}
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ml-2 ${
+                        pickupDrop ? 'border-accent bg-accent text-white' : 'border-border'
+                      }`}
+                    >
+                      {pickupDrop && <CheckCircle2 className="w-3.5 h-3.5 fill-current" />}
+                    </div>
+                  </button>
+                </div>
 
-              <Button type="submit" size="lg" className="w-full mt-2 font-bold shadow-md h-auto py-3 px-4 text-xs sm:text-sm whitespace-normal leading-snug min-w-0">
-                Confirm Service Appointment
-              </Button>
+                <Button type="submit" size="lg" className="w-full mt-2 font-bold shadow-md h-auto py-3 px-4 text-xs sm:text-sm whitespace-normal leading-snug">
+                  Confirm Service Appointment
+                </Button>
 
-              <p className="text-[11px] text-center text-muted-foreground break-words">
-                Genuine Tata Motors parts • Transparent computerized estimates • Cashless insurance
-              </p>
-            </form>
+                <p className="text-[11px] text-center text-muted-foreground break-words">
+                  Genuine Tata Motors parts • Transparent computerized estimates • Cashless insurance
+                </p>
+              </form>
+            </div>
           </>
         )}
       </DialogContent>

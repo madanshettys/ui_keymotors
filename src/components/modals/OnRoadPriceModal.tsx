@@ -82,7 +82,7 @@ export function OnRoadPriceModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="w-[calc(100vw-2rem)] sm:max-w-[580px] p-4 sm:p-6 overflow-x-hidden min-w-0 grid-cols-1">
+      <DialogContent className="w-[calc(100vw-2rem)] sm:w-full sm:max-w-[580px] max-h-[90vh] flex flex-col p-4 sm:p-6">
         {submitted ? (
           <div className="py-8 text-center space-y-4">
             <div className="w-16 h-16 rounded-full bg-ev/10 text-ev mx-auto flex items-center justify-center">
@@ -115,7 +115,7 @@ export function OnRoadPriceModal({
           </div>
         ) : (
           <>
-            <DialogHeader className="space-y-1.5">
+            <DialogHeader className="space-y-1.5 shrink-0 pr-6 text-left">
               <div className="flex flex-wrap items-center gap-2">
                 <Badge variant="outline" className="border-primary text-primary font-semibold text-xs">
                   Bangalore RTO Compliant
@@ -134,89 +134,91 @@ export function OnRoadPriceModal({
               </DialogDescription>
             </DialogHeader>
 
-            {/* Model Selector */}
-            <div className="space-y-1.5 pt-1">
-              <Label>Select Car Model</Label>
-              <Select value={modelId} onValueChange={setModelId}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {CARS.map((c) => (
-                    <SelectItem key={c.id} value={c.id}>
-                      {c.name} — {c.price} ({c.fuelType})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Price Breakdown Card */}
-            <div className="rounded-xl border border-border bg-muted/40 p-3 sm:p-4 space-y-2.5 text-xs sm:text-sm">
-              <div className="flex justify-between items-center gap-2">
-                <span className="text-muted-foreground">Ex-Showroom Price</span>
-                <span className="font-semibold text-foreground shrink-0">{formatInr(exShowroom)}</span>
-              </div>
-              <div className="flex justify-between items-center gap-2">
-                <span className="text-muted-foreground flex items-center gap-1.5 min-w-0">
-                  <span className="truncate">Karnataka RTO Road Tax</span>
-                  {isEv && (
-                    <span className="text-[10px] text-ev font-bold uppercase tracking-wider bg-ev/10 px-1.5 py-0.5 rounded shrink-0">
-                      Zero Tax
-                    </span>
-                  )}
-                </span>
-                <span className={`font-semibold shrink-0 ${isEv ? 'text-ev' : 'text-foreground'}`}>
-                  {isEv ? '₹ 0 (100% Tax Free)' : formatInr(rtoTax)}
-                </span>
-              </div>
-              <div className="flex justify-between items-center gap-2">
-                <span className="text-muted-foreground truncate">Comprehensive Insurance (1+3 Yr)</span>
-                <span className="font-semibold text-foreground shrink-0">{formatInr(insurance)}</span>
-              </div>
-              <div className="flex justify-between items-center gap-2">
-                <span className="text-muted-foreground truncate">Registration, FASTag & Plate Charges</span>
-                <span className="font-semibold text-foreground shrink-0">{formatInr(fastagReg)}</span>
+            <div className="overflow-y-auto -mr-2 pr-2 min-w-0 flex-1 space-y-3 pt-1">
+              {/* Model Selector */}
+              <div className="space-y-1.5">
+                <Label>Select Car Model</Label>
+                <Select value={modelId} onValueChange={setModelId}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {CARS.map((c) => (
+                      <SelectItem key={c.id} value={c.id}>
+                        {c.name} — {c.price} ({c.fuelType})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
-              <Separator />
-
-              <div className="flex justify-between items-center text-sm sm:text-base pt-1 gap-2">
-                <span className="font-bold text-foreground">Est. Total On-Road Price</span>
-                <span className="font-extrabold text-primary text-base sm:text-lg shrink-0">
-                  {formatInr(totalOnRoad)}
-                </span>
-              </div>
-            </div>
-
-            {/* Lead capture form for exact quote */}
-            <form onSubmit={handleSubmit} className="space-y-3 pt-1">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <Label>Your Name</Label>
-                  <Input
-                    required
-                    placeholder="Enter your name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
+              {/* Price Breakdown Card */}
+              <div className="rounded-xl border border-border bg-muted/40 p-3 sm:p-4 space-y-2.5 text-xs sm:text-sm">
+                <div className="flex justify-between items-center gap-2">
+                  <span className="text-muted-foreground">Ex-Showroom Price</span>
+                  <span className="font-semibold text-foreground shrink-0">{formatInr(exShowroom)}</span>
                 </div>
-                <div className="space-y-1.5">
-                  <Label>WhatsApp / Phone Number</Label>
-                  <Input
-                    required
-                    type="tel"
-                    placeholder="10-digit mobile number"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                  />
+                <div className="flex justify-between items-center gap-2">
+                  <span className="text-muted-foreground flex items-center gap-1.5 min-w-0">
+                    <span className="truncate">Karnataka RTO Road Tax</span>
+                    {isEv && (
+                      <span className="text-[10px] text-ev font-bold uppercase tracking-wider bg-ev/10 px-1.5 py-0.5 rounded shrink-0">
+                        Zero Tax
+                      </span>
+                    )}
+                  </span>
+                  <span className={`font-semibold shrink-0 ${isEv ? 'text-ev' : 'text-foreground'}`}>
+                    {isEv ? '₹ 0 (100% Tax Free)' : formatInr(rtoTax)}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center gap-2">
+                  <span className="text-muted-foreground truncate">Comprehensive Insurance (1+3 Yr)</span>
+                  <span className="font-semibold text-foreground shrink-0">{formatInr(insurance)}</span>
+                </div>
+                <div className="flex justify-between items-center gap-2">
+                  <span className="text-muted-foreground truncate">Registration, FASTag & Plate Charges</span>
+                  <span className="font-semibold text-foreground shrink-0">{formatInr(fastagReg)}</span>
+                </div>
+
+                <Separator />
+
+                <div className="flex justify-between items-center text-sm sm:text-base pt-1 gap-2">
+                  <span className="font-bold text-foreground">Est. Total On-Road Price</span>
+                  <span className="font-extrabold text-primary text-base sm:text-lg shrink-0">
+                    {formatInr(totalOnRoad)}
+                  </span>
                 </div>
               </div>
 
-              <Button type="submit" size="lg" className="w-full font-bold shadow-md h-auto py-3 px-4 text-xs sm:text-sm whitespace-normal leading-snug">
-                Get Instant WhatsApp Quotation & Dealer Offers
-              </Button>
-            </form>
+              {/* Lead capture form for exact quote */}
+              <form onSubmit={handleSubmit} className="space-y-3 pt-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    <Label>Your Name</Label>
+                    <Input
+                      required
+                      placeholder="Enter your name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>WhatsApp / Phone Number</Label>
+                    <Input
+                      required
+                      type="tel"
+                      placeholder="10-digit mobile number"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <Button type="submit" size="lg" className="w-full font-bold shadow-md h-auto py-3 px-4 text-xs sm:text-sm whitespace-normal leading-snug">
+                  Get Instant WhatsApp Quotation & Dealer Offers
+                </Button>
+              </form>
+            </div>
           </>
         )}
       </DialogContent>

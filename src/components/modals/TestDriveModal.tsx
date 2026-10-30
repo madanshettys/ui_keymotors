@@ -68,7 +68,7 @@ export function TestDriveModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="w-[calc(100vw-2rem)] sm:max-w-[550px] p-4 sm:p-6 overflow-x-hidden min-w-0 grid-cols-1">
+      <DialogContent className="w-[calc(100vw-2rem)] sm:w-full sm:max-w-[550px] max-h-[90vh] flex flex-col p-4 sm:p-6">
         {submitted ? (
           <div className="py-8 text-center space-y-4">
             <div className="w-16 h-16 rounded-full bg-ev/10 text-ev mx-auto flex items-center justify-center">
@@ -91,7 +91,7 @@ export function TestDriveModal({
           </div>
         ) : (
           <>
-            <DialogHeader className="space-y-1.5">
+            <DialogHeader className="space-y-1.5 shrink-0 pr-6 text-left">
               <div className="flex flex-wrap items-center gap-2">
                 <Badge variant="outline" className="border-accent text-accent font-semibold text-xs">
                   Free Doorstep Available
@@ -108,136 +108,142 @@ export function TestDriveModal({
               </DialogDescription>
             </DialogHeader>
 
-            <form onSubmit={handleSubmit} className="space-y-4 pt-2">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <Label>Select Tata Model</Label>
-                  <Select value={model} onValueChange={setModel}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Choose a model" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {CARS.map((car) => (
-                        <SelectItem key={car.id} value={car.id}>
-                          {car.name} ({car.fuelType})
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+            <div className="overflow-y-auto -mr-2 pr-2 min-w-0 flex-1">
+              <form onSubmit={handleSubmit} className="space-y-4 pt-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 min-w-0">
+                  <div className="space-y-1.5 min-w-0">
+                    <Label>Select Tata Model</Label>
+                    <Select value={model} onValueChange={setModel}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Choose a model" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {CARS.map((car) => (
+                          <SelectItem key={car.id} value={car.id}>
+                            {car.name} ({car.fuelType})
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-1.5 min-w-0">
+                    <Label>Preferred Location</Label>
+                    <Select value={outlet} onValueChange={setOutlet}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select Outlet" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {OUTLETS.map((out) => (
+                          <SelectItem key={out.id} value={out.id}>
+                            {out.name.replace('Key Motors - ', '')}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
-                <div className="space-y-1.5">
-                  <Label>Preferred Location</Label>
-                  <Select value={outlet} onValueChange={setOutlet}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Outlet" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {OUTLETS.map((out) => (
-                        <SelectItem key={out.id} value={out.id}>
-                          {out.name.replace('Key Motors - ', '')}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              {/* Doorstep vs Showroom toggle */}
-              <div className="space-y-1.5">
-                <Label>Drive Preference</Label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  <Button
-                    type="button"
-                    variant={driveType === 'doorstep' ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setDriveType('doorstep')}
-                    className="justify-center sm:justify-start gap-2 h-auto py-2.5 px-3 text-xs font-semibold whitespace-normal text-left"
-                  >
-                    <MapPin className="w-4 h-4 shrink-0" />
-                    <span>Free Doorstep Test Drive</span>
-                  </Button>
-                  <Button
-                    type="button"
-                    variant={driveType === 'showroom' ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setDriveType('showroom')}
-                    className="justify-center sm:justify-start gap-2 h-auto py-2.5 px-3 text-xs font-semibold whitespace-normal text-left"
-                  >
-                    <Sparkles className="w-4 h-4 shrink-0" />
-                    <span>Showroom Experience</span>
-                  </Button>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <Label>Your Full Name</Label>
-                  <Input
-                    required
-                    placeholder="Enter your name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
+                {/* Doorstep vs Showroom toggle */}
+                <div className="space-y-1.5 min-w-0">
+                  <Label>Drive Preference</Label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <Button
+                      type="button"
+                      variant={driveType === 'doorstep' ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setDriveType('doorstep')}
+                      className="justify-center sm:justify-start gap-2 h-auto py-2.5 px-3 text-xs font-semibold whitespace-normal text-left"
+                    >
+                      <MapPin className="w-4 h-4 shrink-0" />
+                      <span>Free Doorstep Test Drive</span>
+                    </Button>
+                    <Button
+                      type="button"
+                      variant={driveType === 'showroom' ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setDriveType('showroom')}
+                      className="justify-center sm:justify-start gap-2 h-auto py-2.5 px-3 text-xs font-semibold whitespace-normal text-left"
+                    >
+                      <Sparkles className="w-4 h-4 shrink-0" />
+                      <span>Showroom Experience</span>
+                    </Button>
+                  </div>
                 </div>
 
-                <div className="space-y-1.5">
-                  <Label>Mobile Number</Label>
-                  <Input
-                    required
-                    type="tel"
-                    placeholder="10-digit mobile number"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                  />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 min-w-0">
+                  <div className="space-y-1.5 min-w-0">
+                    <Label>Your Full Name</Label>
+                    <Input
+                      required
+                      placeholder="Enter your name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="w-full"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5 min-w-0">
+                    <Label>Mobile Number</Label>
+                    <Input
+                      required
+                      type="tel"
+                      placeholder="10-digit mobile number"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="w-full"
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <Label>Preferred Date</Label>
-                  <Input
-                    type="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                  />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 min-w-0">
+                  <div className="space-y-1.5 min-w-0">
+                    <Label>Preferred Date</Label>
+                    <Input
+                      type="date"
+                      value={date}
+                      onChange={(e) => setDate(e.target.value)}
+                      className="w-full"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5 min-w-0">
+                    <Label>Preferred Time Slot</Label>
+                    <Select value={timeSlot} onValueChange={setTimeSlot}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="10:00 AM - 12:00 PM">Morning (10 AM - 12 PM)</SelectItem>
+                        <SelectItem value="12:00 PM - 03:00 PM">Afternoon (12 PM - 3 PM)</SelectItem>
+                        <SelectItem value="03:00 PM - 06:00 PM">Evening (3 PM - 6 PM)</SelectItem>
+                        <SelectItem value="06:00 PM - 08:00 PM">Late Evening (6 PM - 8 PM)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
-                <div className="space-y-1.5">
-                  <Label>Preferred Time Slot</Label>
-                  <Select value={timeSlot} onValueChange={setTimeSlot}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="10:00 AM - 12:00 PM">Morning (10 AM - 12 PM)</SelectItem>
-                      <SelectItem value="12:00 PM - 03:00 PM">Afternoon (12 PM - 3 PM)</SelectItem>
-                      <SelectItem value="03:00 PM - 06:00 PM">Evening (3 PM - 6 PM)</SelectItem>
-                      <SelectItem value="06:00 PM - 08:00 PM">Late Evening (6 PM - 8 PM)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
+                {driveType === 'doorstep' && (
+                  <div className="space-y-1.5 min-w-0">
+                    <Label>Doorstep Address in Bangalore</Label>
+                    <Input
+                      placeholder="House/Office address, Area name (e.g. Indiranagar, HSR)"
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      className="w-full"
+                    />
+                  </div>
+                )}
 
-              {driveType === 'doorstep' && (
-                <div className="space-y-1.5">
-                  <Label>Doorstep Address in Bangalore</Label>
-                  <Input
-                    placeholder="House/Office address, Area name (e.g. Indiranagar, HSR)"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                  />
-                </div>
-              )}
+                <Button type="submit" size="lg" className="w-full mt-2 font-bold shadow-md h-auto py-3 px-4 text-xs sm:text-sm whitespace-normal leading-snug">
+                  Confirm Free Test Drive Booking
+                </Button>
 
-              <Button type="submit" size="lg" className="w-full mt-2 font-bold shadow-md h-auto py-3 px-4 text-xs sm:text-sm whitespace-normal leading-snug">
-                Confirm Free Test Drive Booking
-              </Button>
-
-              <p className="text-[11px] text-center text-muted-foreground">
-                No booking fee required • Free doorstep vehicle sanitation • Transparent pricing
-              </p>
-            </form>
+                <p className="text-[11px] text-center text-muted-foreground break-words">
+                  No booking fee required • Free doorstep vehicle sanitation • Transparent pricing
+                </p>
+              </form>
+            </div>
           </>
         )}
       </DialogContent>
